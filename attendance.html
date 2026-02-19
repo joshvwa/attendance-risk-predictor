@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Risk Predictor</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #f9fbff);
+    }
+    header {
+      background: #1565c0;
+      color: white;
+      padding: 15px 30px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    .card h2 {
+      margin-bottom: 20px;
+      color: #0d47a1;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #fb8c00;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ef6c00;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .safe { background: #e8f5e9; color: #2e7d32; }
+    .warning { background: #fff8e1; color: #f57f17; }
+    .risk { background: #ffebee; color: #c62828; }
+    .legend div {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #555;
+      margin-top: 30px;
+    }
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body><header>
+  Attendance Risk Predictor
+</header><div class="container">
+  <div class="card">
+    <h2>Enter Attendance Details</h2>
+    <label>Total Classes</label>
+    <input type="number" id="total" placeholder="Eg: 40" /><label>Classes Attended</label>
+<input type="number" id="attended" placeholder="Eg: 28" />
+
+<button onclick="predictRisk()">Predict Risk</button>
+
+<div id="output"></div>
+
+  </div>  <div class="card">
+    <h2>Risk Levels</h2>
+    <div class="legend">✅ Safe : Above 80%</div>
+    <div class="legend">⚠️ Warning : 65% – 80%</div>
+    <div class="legend">❌ High Risk : Below 65%</div>
+  </div>
+</div><footer>
+  Mini Project – Attendance Risk Predictor
+</footer><script>
+  function predictRisk() {
+    const total = document.getElementById('total').value;
+    const attended = document.getElementById('attended').value;
+    const output = document.getElementById('output');
+
+    if (total === '' || attended === '' || attended > total) {
+      output.innerHTML = '<div class="result risk">Invalid Input</div>';
+      return;
+    }
+
+    const percent = (attended / total) * 100;
+    let result = '';
+
+    if (percent > 80) {
+      result = `<div class="result safe">Safe (${percent.toFixed(2)}%)</div>`;
+    } else if (percent >= 65) {
+      result = `<div class="result warning">Warning (${percent.toFixed(2)}%)</div>`;
+    } else {
+      result = `<div class="result risk">High Risk (${percent.toFixed(2)}%)</div>`;
+    }
+
+    output.innerHTML = result;
+  }
+</script></body>
+</html>
